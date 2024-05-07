@@ -139,3 +139,100 @@
     width: 25%; 
     height: auto; 
 }
+
+.middle-container{
+    display: flex;
+}
+
+.days-forecast{
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(80px);
+    width: 50%;
+    height: 300px;
+    margin-left: 100px;
+    padding-left: 30px;
+    padding-right: 20px;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+    background: transparent;
+
+}
+
+.day-forecast-text{
+    display: flex;
+    justify-content: center;
+    color: rgb(6, 5, 5);
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 15px;
+    
+}
+
+.day-forecast-Maincards{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    gap: 100px;
+    
+
+}
+
+.day-forecast-card{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(51, 77, 101);
+    border-radius: 30px;
+    
+
+}
+
+.day-forecast-card img{
+    width: 25%;
+    margin-left: 50px;
+}
+.day-forecast-card h3{
+    display: flex;
+    color: white;
+    font-size: 17px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 20px;
+    font-weight: 400;
+}
+
+.day-forecast-card .weather-temp-forecast {
+    display: flex;
+    color: white;
+    padding-top: 10px;
+    font-size: 14px;
+    margin-left: 20px;
+    font-weight: 300;
+    
+}
+
+
+
+.day-forecast-card .humidity-forecast {
+    display: flex;
+    color: white;
+    padding-top: 5px;
+    font-size: 14px;
+    margin-left: 20px;
+    font-weight: 300;
+    
+}
+
+.day-forecast-card .wind-forecast {
+    display: flex;
+    color: white;
+    padding-top: 5px;
+    font-size: 14px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    font-weight: 300;
+    
+}
