@@ -4,6 +4,7 @@ import "./Login.css";
 
 function Login() {
   return (
+    <div className='background-login'>
     <div className='wrapper'>
         <div className='form-box login'>
             <form action=''>
@@ -17,7 +18,8 @@ function Login() {
                 <button type='submit'>Login</button>
             </form>
         </div>
-    </div>
+        </div>
+        </div>
   )
 }
 

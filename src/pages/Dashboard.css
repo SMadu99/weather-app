@@ -1,0 +1,141 @@
+.container{
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: url('../assests/background1.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding-top: 20px;
+    
+    
+}
+
+.container .header-weatherdash{
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    
+    
+}
+
+.top-bar{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 40px;
+    
+    
+}
+
+.top-bar input{
+    width: 20%;
+    height: 35px;
+    border: 2px solid rgba(255, 255, 255, .8);
+    outline: none;
+    border-radius: 20px;
+    padding-left:20px ;
+    padding-right: 15px;
+    background: #ebfffc;
+    color: #626262;
+    position: relative;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.top-bar .search-icon{
+    position: absolute;
+    right: 20px;
+    display: flex;
+    font-size: 25px; /* Increase the font size of the icon */
+    color: #626262;
+    translate: 0 +35%;
+    cursor: pointer;
+    margin-right: 10px;
+    
+
+}
+
+.weather-card{
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(80px);
+    width: 25%;
+    height: 300px;
+    margin-left: 20px;
+    padding-left: 20px;
+    padding-top: 5px;
+    padding-right: 20px;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+    background: transparent;
+
+}
+
+.weather-image{
+    display: flex;
+    justify-content: center;
+}
+
+.weather-image img {
+    width: 20%; 
+    height: auto; 
+}
+.weather{
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+
+}
+.weather-temp{
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 25px;
+    font-weight: 400;
+    
+}
+.weather-location{
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.data-container{
+    margin-top: 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.element{
+    margin: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+
+
+.data{
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.text{
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.icon{
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 25%; 
+    height: auto; 
+}
