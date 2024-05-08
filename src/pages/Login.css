@@ -66,8 +66,8 @@ form .input-box{
     position: absolute;
     right: 20px;
     top: 50%;
-    translate: 0 -50%;
-    font-size: 16px;
+    translate: 0 -80%;
+    width: 8%;
 
 }
 
