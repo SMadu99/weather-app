@@ -21,11 +21,11 @@ function Dashboard() {
   const [searchQuery, setSearchQuery] = useState(""); 
   const [showError, setShowError] = useState(false);
   const [viewMore, setViewMore] = useState(false); 
-  const [currentCity, setCurrentCity] = useState("Colombo"); // State to track currently searched city
+  const [currentCity, setCurrentCity] = useState("Colombo"); 
 
   useEffect(() => {
-    fetchWeatherAndForecast(currentCity); // Fetch weather for the current city
-  }, [viewMore, currentCity]); // Re-fetch weather data when viewMore or currentCity changes
+    fetchWeatherAndForecast(currentCity); 
+  }, [viewMore, currentCity]); 
 
   const fetchWeatherAndForecast = async (city) => {
     try {
