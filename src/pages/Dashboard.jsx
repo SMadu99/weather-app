@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import { FaSearch } from "react-icons/fa";
 import "./Dashboard.css";
 import cloud from "../assests/cloudy.png";
@@ -13,10 +13,78 @@ import humidity from "../assests/humidity.png";
 import wind from "../assests/wind.png";
 
 function Dashboard() {
+
   let api_key = "64bd7b2db8c96ff716df610a71630431";
 
   const [wicon, setWicon] = useState(cloud);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+
+    const fetchForecast = async () => {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=Colombo&units=Metric&appid=${api_key}`;
+
+    let response = await fetch(url);
+    let data = await response.json();
+    const humidity = document.getElementsByClassName("humidity-percent");
+    const wind = document.getElementsByClassName("wind-rate");
+    const temprature = document.getElementsByClassName("weather-temp");
+    const location = document.getElementsByClassName("weather-location");
+    const weather = document.getElementsByClassName("weather");
+
+    humidity[0].innerHTML = data.main.humidity + " %";
+    wind[0].innerHTML = data.wind.speed + " km/h";
+    temprature[0].innerHTML = data.main.temp + " °c";
+    location[0].innerHTML = data.name;
+    weather[0].innerHTML = data.weather[0].description;
+
+    if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
+      setWicon(clear);
+    } else if (
+      data.weather[0].icon === "02d" ||
+      data.weather[0].icon === "02n"
+    ) {
+      setWicon(cloud);
+    } else if (
+      data.weather[0].icon === "03d" ||
+      data.weather[0].icon === "03n"
+    ) {
+      setWicon(clouds);
+    } else if (
+      data.weather[0].icon === "04d" ||
+      data.weather[0].icon === "04n"
+    ) {
+      setWicon(clouds);
+    } else if (
+      data.weather[0].icon === "09d" ||
+      data.weather[0].icon === "09n"
+    ) {
+      setWicon(shower);
+    } else if (
+      data.weather[0].icon === "10d" ||
+      data.weather[0].icon === "10n"
+    ) {
+      setWicon(rain);
+    } else if (
+      data.weather[0].icon === "11d" ||
+      data.weather[0].icon === "11n"
+    ) {
+      setWicon(strom);
+    } else if (
+      data.weather[0].icon === "13d" ||
+      data.weather[0].icon === "13n"
+    ) {
+      setWicon(winter);
+    } else if (
+      data.weather[0].icon === "50d" ||
+      data.weather[0].icon === "50n"
+    ) {
+      setWicon(mist);
+    }
+  };
+  fetchForecast();
+  }, []);
+
 
   const search = async () => {
     const element = document.getElementsByClassName("cityInput");
