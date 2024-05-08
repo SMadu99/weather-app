@@ -13,111 +13,98 @@ import humidity from "../assests/humidity.png";
 import wind from "../assests/wind.png";
 
 function Dashboard() {
-  let api_key = "64bd7b2db8c96ff716df610a71630431";
-  let location = "Colombo";
+  const api_key = "64bd7b2db8c96ff716df610a71630431";
+  const location = "Colombo";
 
-  const [wicon, setWicon] = useState(cloud);
   const [currentWeather, setCurrentWeather] = useState({});
   const [forecastData, setForecastData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const [searchQuery, setSearchQuery] = useState(""); // State to manage search query
+  const [searchQuery, setSearchQuery] = useState(""); 
   const [showError, setShowError] = useState(false);
+  const [viewMore, setViewMore] = useState(false); 
+
+  useEffect(() => {
+    fetchWeatherAndForecast(location); 
+  }, [viewMore]);
 
   const fetchWeatherAndForecast = async (location) => {
     try {
       const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=Metric&appid=${api_key}`;
       const currentWeatherResponse = await fetch(currentWeatherUrl);
       const currentWeatherData = await currentWeatherResponse.json();
-  
+
       const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=Metric&appid=${api_key}`;
       const forecastResponse = await fetch(forecastUrl);
       const forecastData = await forecastResponse.json();
-  
+
       if (currentWeatherData.cod === 200 && forecastData.cod === "200") {
         setCurrentWeather(currentWeatherData);
-        
-        // Filter forecasts for 12:00:00 for the next three days
+
         const currentDate = new Date();
-        const nextThreeDaysData = forecastData.list.filter(item => {
-          const forecastDateTime = new Date(item.dt_txt);
-          return (
-            forecastDateTime.getHours() === 12 &&
-            forecastDateTime.getDate() > currentDate.getDate() &&
-            forecastDateTime.getDate() <= currentDate.getDate() + 3
-          );
-        });
-        
-        // Set icon based on weather condition
-        setWeatherIcon(currentWeatherData.weather[0].icon);
-  
-        // Set forecast data
-        setForecastData(nextThreeDaysData);
-        
+        let filteredForecastData;
+        if (viewMore) {
+          filteredForecastData = forecastData.list.filter((item) => {
+            const forecastDateTime = new Date(item.dt_txt);
+            return forecastDateTime.getHours() === 12 && forecastDateTime.getDate() > currentDate.getDate();
+          });
+        } else {
+          filteredForecastData = forecastData.list.filter((item) => {
+            const forecastDateTime = new Date(item.dt_txt);
+            return forecastDateTime.getHours() === 12 && forecastDateTime.getDate() > currentDate.getDate() && forecastDateTime.getDate() <= currentDate.getDate() + 3;
+          });
+        }
+
+        setForecastData(filteredForecastData);
         setErrorMessage("");
         setShowError(false);
       } else {
         setErrorMessage("Please Enter City Name Correctly");
-        setShowError(true); // Show error message
+        setShowError(true);
       }
     } catch (error) {
       console.error("Error fetching weather data:", error);
-      setShowError(true); // Show error message
+      setShowError(true);
     }
   };
-  
-
-  useEffect(() => {
-    fetchWeatherAndForecast(location); // Default location
-  }, []);
 
   const setWeatherIcon = (iconCode) => {
     switch (iconCode) {
       case "01d":
       case "01n":
-        setWicon(clear);
-        break;
+        return clear;
       case "02d":
       case "02n":
-        setWicon(cloud);
-        break;
+        return cloud;
       case "03d":
       case "03n":
-        setWicon(clouds);
-        break;
+        return clouds;
       case "04d":
       case "04n":
-        setWicon(clouds);
-        break;
+        return clouds;
       case "09d":
       case "09n":
-        setWicon(shower);
-        break;
+        return shower;
       case "10d":
       case "10n":
-        setWicon(rain);
-        break;
+        return rain;
       case "11d":
       case "11n":
-        setWicon(strom);
-        break;
+        return strom;
       case "13d":
       case "13n":
-        setWicon(winter);
-        break;
+        return winter;
       case "50d":
       case "50n":
-        setWicon(mist);
-        break;
+        return mist;
       default:
-        setWicon(cloud);
-        break;
+        return cloud;
     }
   };
 
   const search = async () => {
     if (searchQuery === "") {
       setErrorMessage("Please enter a city name.");
-      setShowError(true); // Show error message
+      setShowError(true);
       return;
     }
     fetchWeatherAndForecast(searchQuery);
@@ -136,7 +123,6 @@ function Dashboard() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-
         <div
           className="search-icon"
           onClick={() => {
@@ -148,14 +134,11 @@ function Dashboard() {
       </div>
       <div className="middle-container">
         <div className="weather-card">
-          
           <div className="weather-image">
-            <img src={wicon} alt="" />
+            <img src={setWeatherIcon(currentWeather.weather?.[0]?.icon)} alt="" />
           </div>
           <div className="weather">
-            {currentWeather.weather
-              ? currentWeather.weather[0].description
-              : ""}
+            {currentWeather.weather ? currentWeather.weather[0].description : ""}
           </div>
           <div className="weather-temp">
             {currentWeather.main ? currentWeather.main.temp : ""} °c
@@ -171,7 +154,6 @@ function Dashboard() {
                 <div className="text">Humidity</div>
               </div>
             </div>
-
             <div className="element">
               <img src={wind} alt="" className="icon" />
               <div className="data">
@@ -184,25 +166,30 @@ function Dashboard() {
           </div>
         </div>
         <div className="days-forecast">
-            <div style={{display:"flex"}}>
-          <div className="day-forecast-text">Forecast for 3 Days</div>
-          <button style={{backgroundColor: "#263651",
-        color: "#ffffff",
-        padding: "4px 8px",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer",
-        fontSize: "12px",
-        marginTop: "30px",
-        marginLeft:"100px",
-        }}>View More</button>
+          <div style={{ display: "flex" }}>
+            <div className="day-forecast-text">Forecast for 3 Days</div>
+            <button
+              style={{
+                backgroundColor: "#263651",
+                color: "#ffffff",
+                padding: "4px 8px",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "12px",
+                marginTop: "30px",
+                marginLeft: "100px",
+              }}
+              onClick={() => setViewMore(!viewMore)}
+            >
+              {viewMore ? "View Less" : "View More"}
+            </button>
           </div>
           <div className="day-forecast-Maincards">
-            {forecastData.slice(0, 3).map((forecast, index) => (
+            {forecastData.map((forecast, index) => (
               <div key={index} className="day-forecast-card">
                 <h3>{forecast.dt_txt}</h3>
-                
-                <img src={wicon} alt="" />
+                <img src={setWeatherIcon(forecast.weather?.[0]?.icon)} alt="" />
                 <div className="weather-temp-forecast">
                   Temp: {forecast.main.temp} °c
                 </div>
@@ -217,21 +204,24 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      
-      {/* Error Modal */}
       {showError && (
         <div className="error-modal">
           <div className="error-message">{errorMessage}</div>
-          <button style={{
-        backgroundColor: "#ff5252",
-        color: "#ffffff",
-        padding: "8px 16px",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer",
-        fontSize: "14px",
-        marginTop: "8px" // Add margin to separate button from error message
-      }} onClick={() => setShowError(false)}>Close</button>
+          <button
+            style={{
+              backgroundColor: "#ff5252",
+              color: "#ffffff",
+              padding: "8px 16px",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "14px",
+              marginTop: "8px",
+            }}
+            onClick={() => setShowError(false)}
+          >
+            Close
+          </button>
         </div>
       )}
     </div>
